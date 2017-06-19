@@ -1,0 +1,43 @@
+body {
+  background-color: black;
+  color: white;
+  font-family: 'Alegreya Sans SC', sans-serif;
+}
+
+.gif {
+  margin: 1em 0.5em 1em;
+  border: 1px solid white;
+}
+
+#search-form {
+  padding: 1em 0 1em 0;
+}
+
+#search-input {
+  background-color: black;
+  height: 34px;
+  color: white;
+  border-color: white;
+} #search-input:placeholder {
+  color: white;
+}
+
+#results {
+  margin: 1em 0 1em 0;
+  padding: 1em 0 1em 0;
+}
+
+.custom-button,
+.custom-button:focus,
+.custom-button:active {
+  border-radius: 0%;
+  border: 1px solid white;
+  background-color: black;
+  color: white;
+}
+.custom-button:hover {
+  color: black;
+  background-color: white;
+  border-color: black;
+
+}
