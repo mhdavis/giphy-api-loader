@@ -16,15 +16,16 @@ function generateButton(str) {
   $("#buttons-list").append($button);
 }
 
-//---------------------------------------------------------
 function renderButtons() {
   $("#buttons-list").empty();
   for (let i = 0; i < searchArray.length; i++) {
     generateButton(searchArray[i]);
   }
 }
-//---------------------------------------------------------
 
+//---------------------------------------------------------
+// EVENT HANDLERS
+//---------------------------------------------------------
 $(document).ready(function() {
 
   renderButtons();
@@ -35,31 +36,42 @@ $(document).ready(function() {
     let $input = $("#search-input").val();
     searchArray.push($input);
     generateButton($input);
+    $input = "";
   });
 
-  $(".query-button").on("click"),
+  $(document).on("click", ".query-button"
     function(event) {
+      event.preventDefault();
       let queryItem = $(this).val();
-      let queryKey = "butts";
-      let queryURL = "www" + queryItem + ".com/" + queryKey;
+      let queryKey = "&api_key=dc6zaTOxFJmzC&limit=10";
+      let queryURL = "http://api.giphy.com/v1/gifs/search?q=" + queryItem + queryKey;
       $.ajax({
         url: queryURL,
         method: "GET"
       }).done(function(response) {
-        let gifDiv = $("<div>");
-        gifDiv.addClass("gif-layout");
+        $("#results").empty();
 
-        let gifImg = $("<img>");
-        gifImg.addClass("gif")
-          .att("src", response.url),
-          .att("data-state", response.url),
-          .att("data-still", response.url),
-          .att("data-animate", response.url),
+        let products = response.data;
+
+        for (let i = 0; i < products.length; i++) {
+          let gifDiv = $("<div>");
+          gifDiv.addClass("gif-layout");
+
+          let gifImg = $("<img>");
+          gifImg.addClass("gif")
+            .attr("src", products[i].images.fixed_height.url)
+            .attr("data-state", "still")
+            .attr("data-still", products[i].images.fixed_height_still.url)
+            .attr("data-animate", products[i].images.fixed_height.url);
+
+          gifDiv.append(gifImg);
+          $("#results").append(gifDiv);
+        }
       });
-    }
+    });
 
   $(".gif").on("click", function() {
-    var state = $(this).attr("data-state");
+    let state = $(this).attr("data-state");
     if (state === "still") {
       $(this).attr("src", $(this).attr("data-animate"));
       $(this).attr("data-state", "animate");
